@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+<meta charset="UTF-8">
+<title>For You ❤️</title>
+
+<style>
+body{
+margin:0;
+padding:0;
+background:black;
+color:white;
+font-family:Arial;
+text-align:center;
+overflow:hidden;
+}
+
+#login{
+position:absolute;
+top:50%;
+left:50%;
+transform:translate(-50%,-50%);
+}
+
+input{
+padding:10px;
+font-size:18px;
+border-radius:10px;
+border:none;
+}
+
+button{
+padding:12px 22px;
+font-size:18px;
+border-radius:12px;
+border:none;
+background:linear-gradient(45deg, red, pink);
+color:white;
+cursor:pointer;
+box-shadow:0 0 15px red;
+}
+
+#content{
+display:none;
+padding-top:50px;
+}
+
+h1{
+color:red;
+font-size:35px;
+}
+
+.typing{
+font-size:22px;
+width:85%;
+margin:auto;
+white-space:pre-line;
+line-height:1.8;
+margin-top:20px;
+}
+
+#counter{
+font-size:20px;
+margin-top:15px;
+color:pink;
+}
+
+.heart{
+position:absolute;
+color:red;
+animation:float 6s linear infinite;
+}
+
+@keyframes float{
+0%{transform:translateY(100vh);}
+100%{transform:translateY(-10vh);}
+}
+
+#surpriseBox{
+visibility:hidden;
+position:fixed;
+top:0;
+left:0;
+width:100%;
+height:100%;
+background:rgba(0,0,0,0.95);
+display:flex;
+justify-content:center;
+align-items:center;
+text-align:center;
+padding:20px;
+flex-direction:column;
+z-index:999;
+}
+
+#surpriseBox.active{
+visibility:visible;
+}
+</style>
+</head>
+
+<body>
+
+<div id="login">
+<h2>اكتب الباسورد ❤️</h2>
+<input type="password" id="pass" placeholder="الباسورد هنا">
+<br><br>
+<button onclick="checkPass()">دخول</button>
+</div>
+
+<div id="content">
+
+<h1>❤️ من يوم 13 نوفمبر 2025 ❤️</h1>
+
+<div id="counter"></div>
+
+<p class="typing" id="text"></p >
+
+<div id="imageContainer"></div>
+
+<br><br>
+<button onclick="surprise()">اضغطي هنا يا أجمل حاجة في حياتي ❤️</button>
+
+<audio id="bgMusic" loop>
+<source src="music.mp3" type="audio/mpeg">
+</audio>
+
+</div>
+
+<div id="surpriseBox">
+<h1 style="color:red;">مفاجأة ❤️</h1>
+<p style="font-size:24px; line-height:1.8; max-width:700px;">
+أنا ما اخترتش أحبك…  
+أنا لقيت نفسي بحبك من غير ما أحس ❤️  
+
+من أول يوم 13 نوفمبر 2025  
+وحياتي بدأت تاخد شكل تاني  
+
+إنتِ أماني، وضحكتي، وسبب سعادتي  
+وكل حلم نفسي أعيشه يكون وإنتِ معايا 💕  
+
+لو الزمن رجع بيا  
+هختارك ألف مرة  
+من غير تفكير  
+
+بحبك… وهفضل أحبك طول العمر ❤️
+</p >
+<br>
+<button onclick="closeSurprise()">اقفلي المفاجأة ❤️</button>
+</div>
+
+<script>
+
+function checkPass(){
+var password = document.getElementById("pass").value;
+if(password === "love"){
+document.getElementById("login").style.display="none";
+document.getElementById("content").style.display="block";
+document.getElementById("bgMusic").play();
+
+document.getElementById("imageContainer").innerHTML =
+'< img src="love1.jpg" style="margin-top:30px;max-width:320px;border-radius:20px;box-shadow:0 0 30px red;">';
+
+typeWriter();
+createHearts();
+startCounter();
+}else{
+alert("الباسورد غلط 😢");
+}
+}
+
+var i = 0;
+
+var txt = "من يوم ما عرفتك وأنا حاسس إن الدنيا بقت أهدى وأجمل ❤️\n\nكل يوم بيعدي وإنتِ فيه بيأكدلي إني محظوظ.\nوجودك في حياتي فرق معايا في كل حاجة.\n\nمش بس بحبك…\nأنا بختارك كل يوم.\nوبتمنى نكمل المشوار سوا لآخر العمر 💕";
+
+function typeWriter(){
+if(i < txt.length){
+document.getElementById("text").innerHTML += txt.charAt(i);
+i++;
+setTimeout(typeWriter,45);
+}
+}
+
+function startCounter(){
+var startDate = new Date(2025, 10, 13, 0, 0, 0).getTime();
+
+setInterval(function(){
+var now = new Date().getTime();
+var distance = now - startDate;
+
+var days = Math.floor(distance / (1000 * 60 * 60 * 24));
+var hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+var seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+document.getElementById("counter").innerHTML =
+"عدّى علينا: " + days + " يوم " +
+hours + " ساعة " +
+minutes + " دقيقة " +
+seconds + " ثانية ❤️";
+},1000);
+}
+
+function createHearts(){
+setInterval(function(){
+var heart = document.createElement("div");
+heart.className="heart";
+heart.innerHTML="❤️";
+heart.style.left=Math.random()*100+"vw";
+heart.style.fontSize=Math.random()*20+20+"px";
+document.body.appendChild(heart);
+setTimeout(function(){heart.remove();},6000);
+},500);
+}
+
+function surprise(){
+document.getElementById("surpriseBox").classList.add("active");
+}
+
+function closeSurprise(){
+document.getElementById("surpriseBox").classList.remove("active");
+}
+
+</script>
+
+</body>
+</html>
