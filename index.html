@@ -42,7 +42,16 @@ box-shadow:0 0 15px red;
 
 #content{
 display:none;
-padding-top:50px;
+padding-top:40px;
+}
+
+#malokaName{
+opacity:0;
+transition:1.5s;
+color:pink;
+font-size:32px;
+text-shadow:0 0 15px red;
+margin-bottom:10px;
 }
 
 h1{
@@ -110,6 +119,8 @@ visibility:visible;
 
 <div id="content">
 
+<h2 id="malokaName">Maloka ❤️</h2>
+
 <h1>❤️ من يوم 13 نوفمبر 2025 ❤️</h1>
 
 <div id="counter"></div>
@@ -156,21 +167,26 @@ var password = document.getElementById("pass").value;
 if(password === "love"){
 document.getElementById("login").style.display="none";
 document.getElementById("content").style.display="block";
-document.getElementById("bgMusic").play();
 
-document.getElementById("imageContainer").innerHTML =
-'<img src="love1.jpg" style="margin-top:30px;max-width:320px;border-radius:20px;box-shadow:0 0 30px red;">';
+setTimeout(function(){
+document.getElementById("malokaName").style.opacity="1";
+},500);
+
+document.getElementById("bgMusic").play();
 
 typeWriter();
 createHearts();
 startCounter();
+
+document.getElementById("imageContainer").innerHTML =
+'<img src="love1.jpg" style="margin-top:30px;max-width:320px;border-radius:20px;box-shadow:0 0 30px red;">';
+
 }else{
 alert("الباسورد غلط 😢");
 }
 }
 
 var i = 0;
-
 var txt = "من يوم ما عرفتك وأنا حاسس إن الدنيا بقت أهدى وأجمل ❤️\n\nكل يوم بيعدي وإنتِ فيه بيأكدلي إني محظوظ.\nوجودك في حياتي فرق معايا في كل حاجة.\n\nمش بس بحبك…\nأنا بختارك كل يوم.\nوبتمنى نكمل المشوار سوا لآخر العمر 💕";
 
 function typeWriter(){
@@ -183,7 +199,6 @@ setTimeout(typeWriter,45);
 
 function startCounter(){
 var startDate = new Date("November 13, 2025 00:00:00").getTime();
-
 setInterval(function(){
 var now = new Date().getTime();
 var distance = now - startDate;
