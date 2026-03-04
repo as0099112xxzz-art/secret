@@ -2,51 +2,51 @@
 <html lang="ar">
 <head>
 <meta charset="UTF-8">
-<title>For You ❤️</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ahmed ❤️</title>
 
 <style>
 body{
 margin:0;
-padding:0;
-background:radial-gradient(circle at top,#300000,black);
-color:white;
 font-family:Arial;
 text-align:center;
+background:linear-gradient(-45deg,#ff9a9e,#fad0c4,#fad0c4,#ffdde1);
+background-size:400% 400%;
+animation:bg 10s ease infinite;
 overflow-x:hidden;
+color:#fff;
 }
 
-#login{
-position:absolute;
-top:50%;
-left:50%;
-transform:translate(-50%,-50%);
+@keyframes bg{
+0%{background-position:0% 50%;}
+50%{background-position:100% 50%;}
+100%{background-position:0% 50%;}
 }
 
-input,textarea{
-padding:10px;
-border-radius:10px;
-border:none;
-width:80%;
-max-width:350px;
+h1{margin-top:20px}
+
+img.top-img{
+width:220px;
+border-radius:20px;
+box-shadow:0 0 20px #fff;
+margin:20px 0;
 }
 
-button{
-padding:10px 20px;
-border:none;
-border-radius:10px;
-background:linear-gradient(45deg,red,pink);
-color:white;
-cursor:pointer;
-margin-top:10px;
+#countdown{
+font-size:20px;
+margin:20px 0;
 }
 
-#content{display:none;padding:20px;}
+.section{
+margin:30px 0;
+}
 
 .card{
 width:250px;
-height:150px;
+height:200px;
 margin:20px auto;
 perspective:1000px;
+cursor:pointer;
 }
 
 .card-inner{
@@ -57,11 +57,11 @@ transition:transform 0.8s;
 transform-style:preserve-3d;
 }
 
-.card:hover .card-inner{
+.card.flipped .card-inner{
 transform:rotateY(180deg);
 }
 
-.card-front,.card-back{
+.card-front, .card-back{
 position:absolute;
 width:100%;
 height:100%;
@@ -70,209 +70,212 @@ border-radius:15px;
 display:flex;
 align-items:center;
 justify-content:center;
-background:rgba(255,0,0,0.2);
-box-shadow:0 0 15px red;
-padding:10px;
+padding:15px;
+box-shadow:0 0 15px rgba(0,0,0,0.3);
+}
+
+.card-front{
+background:#ffffff22;
 }
 
 .card-back{
+background:#ff4b5c;
 transform:rotateY(180deg);
-background:rgba(255,105,180,0.3);
 }
 
-.heart,.star{
+button{
+padding:10px 20px;
+border:none;
+border-radius:20px;
+background:#ff4b5c;
+color:white;
+font-size:16px;
+cursor:pointer;
+}
+
+input{
+padding:8px;
+border-radius:10px;
+border:none;
+margin-top:10px;
+}
+
+.secret{
+display:none;
+margin-top:20px;
+font-size:18px;
+color:yellow;
+}
+
+.floating{
 position:fixed;
-animation:float 6s linear infinite;
+top:0;
+left:0;
+width:100%;
+height:100%;
+pointer-events:none;
+overflow:hidden;
+}
+
+.floating span{
+position:absolute;
+font-size:20px;
+animation:float 10s linear infinite;
 }
 
 @keyframes float{
 0%{transform:translateY(100vh);}
 100%{transform:translateY(-10vh);}
 }
-
-#secretOverlay{
-position:fixed;
-top:0;
-left:0;
-width:100%;
-height:100%;
-background:rgba(0,0,0,0.9);
-display:none;
-align-items:center;
-justify-content:center;
-flex-direction:column;
-z-index:999;
-text-align:center;
-padding:20px;
-}
-
-#surpriseBtn{
-display:none;
-margin-top:20px;
-}
-
 </style>
 </head>
 
 <body>
 
-<div id="login">
-<h2>اكتب الباسورد ❤️</h2>
-<input type="password" id="pass">
-<br><br>
-<button onclick="checkPass()">دخول</button>
-</div>
+<h1>❤️ بحبك ❤️</h1>
 
-<div id="content">
+<img src="love1.jpg" class="top-img">
 
-<h1>❤️ Maloka ❤️</h1>
+<div id="countdown"></div>
 
-<img src="love1.jpg" style="max-width:300px;border-radius:20px;box-shadow:0 0 20px red;">
+<!-- الجمل -->
+<div class="section">
+<h2>💌 كلام ليكي</h2>
 
-<h3 id="counter"></h3>
-<h3 id="yearCounter" style="color:gold;"></h3>
-
-<p id="text" style="font-size:20px;width:85%;margin:auto;white-space:pre-line;line-height:1.8;margin-top:20px;"></p>
-
-<h2>🃏 دوسي على الكروت</h2>
-
-<div class="card">
+<div class="card" onclick="flipCard(this)">
 <div class="card-inner">
-<div class="card-front">اضغطي هنا ❤️</div>
-<div class="card-back">محبيتش ولا هحب حد قدك</div>
+<div class="card-front">اضغطي هنا</div>
+<div class="card-back">انتي اجمل حاجة حصلتلي ❤️</div>
 </div>
 </div>
 
+<div class="card" onclick="flipCard(this)">
+<div class="card-inner">
+<div class="card-front">اضغطي هنا</div>
+<div class="card-back">ضحكتك بالدنيا كلها 💕</div>
+</div>
+</div>
+</div>
+
+<!-- الذكريات -->
+<div class="section">
 <h2>📸 ذكرياتنا</h2>
 
-<img src="memory1.jpg" style="width:80%;max-width:300px;border-radius:15px;margin:10px;">
-<img src="memory2.jpg" style="width:80%;max-width:300px;border-radius:15px;margin:10px;">
-<img src="memory3.jpg" style="width:80%;max-width:300px;border-radius:15px;margin:10px;">
+<div class="card" onclick="flipCard(this)">
+<div class="card-inner">
+<div class="card-front">
+<img src="memory1.jpg" style="width:100%;height:100%;border-radius:15px;">
+</div>
+<div class="card-back">أول صورة لينا وكانت بداية كل حاجة ❤️</div>
+</div>
+</div>
 
-<h2>💌 رسالة سرية</h2>
+<div class="card" onclick="flipCard(this)">
+<div class="card-inner">
+<div class="card-front">
+<img src="memory2.jpg" style="width:100%;height:100%;border-radius:15px;">
+</div>
+<div class="card-back">اليوم اللي ضحكنا فيه جامد 😂💕</div>
+</div>
+</div>
 
-<input type="text" id="secretInput" placeholder="اكتب الاسم">
+<div class="card" onclick="flipCard(this)">
+<div class="card-inner">
+<div class="card-front">
+<img src="memory3.jpg" style="width:100%;height:100%;border-radius:15px;">
+</div>
+<div class="card-back">أول مرة قولتلك بحبك ❤️</div>
+</div>
+</div>
+</div>
+
+<!-- الرسالة السرية -->
+<div class="section">
+<h2>🔐 رسالة سرية</h2>
+<input type="text" id="secretInput" placeholder="اكتبي الاسم">
 <br>
-<button onclick="checkSecret()">افتح الرسالة</button>
+<button onclick="checkName()">عرض الرسالة</button>
 
-<br><br>
+<div class="secret" id="secretMessage">
+انتي كل حياتي يا أجمل بنت في الدنيا ❤️🔥
+</div>
+</div>
 
+<!-- واتس -->
+<div class="section">
 <h2>💬 اكتبيلي رأيك هنا</h2>
-<textarea id="reply"></textarea>
-<br>
-<button onclick="sendWhats()">ابعتيلي رأيك</button>
-
-<button id="surpriseBtn" onclick="alert('أنا بختارك كل يوم ❤️')">
-عندي مفاجأة ليكي 🎁
-</button>
-
-<audio id="bgMusic" loop>
-<source src="music.mp3" type="audio/mpeg">
-</audio>
-
-<audio id="secretSound">
-<source src="secret.mp3" type="audio/mpeg">
-</audio>
-
+<textarea id="whatsappMsg" rows="3" cols="25" placeholder="اكتبي رسالتك هنا"></textarea>
+<br><br>
+<button onclick="sendWhats()">ابعتلي ع الواتس</button>
 </div>
 
-<div id="secretOverlay">
-<h1>أنا محبيتش ولا هحب حد قدك ❤️</h1>
-<p>وجودك في حياتي أحلى حاجة حصلتلي 💕</p>
-</div>
+<!-- موسيقى -->
+<audio autoplay loop>
+<source src="music1.mp3" type="audio/mp3">
+</audio>
+
+<!-- قلوب ونجوم -->
+<div class="floating" id="floating"></div>
 
 <script>
-
-var i=0;
-var txt=
-"من يوم ما عرفتك وأنا حاسس إن الدنيا بقت أهدى وأجمل ❤️\n"+
-"كل يوم بيعدي وإنتِ فيه بيأكدلي إني محظوظ 💕\n\n"+
-"ومهما يعدي وقت...\n"+
-"أنا بختارك كل يوم من غير تردد ❤️\n"+
-"ومحبيتش ولا هحب حد قدك.";
-
-function checkPass(){
-if(document.getElementById("pass").value==="love"){
-document.getElementById("login").style.display="none";
-document.getElementById("content").style.display="block";
-document.getElementById("bgMusic").play();
-startCounter();
-startYearCounter();
-typeWriter();
-createEffects();
-setTimeout(()=>{document.getElementById("surpriseBtn").style.display="block";},30000);
-}else{alert("الباسورد غلط");}
+function flipCard(card){
+card.classList.toggle("flipped");
+explodeHearts();
 }
 
-function typeWriter(){
-if(i<txt.length){
-document.getElementById("text").innerHTML+=txt.charAt(i);
-i++;
-setTimeout(typeWriter,40);
+function checkName(){
+let name=document.getElementById("secretInput").value;
+if(name.trim()=="احمد"){
+document.getElementById("secretMessage").style.display="block";
 }
-}
-
-function startCounter(){
-var start=new Date("Nov 13, 2025 00:00:00").getTime();
-setInterval(()=>{
-var now=new Date().getTime();
-var d=now-start;
-var days=Math.floor(d/(1000*60*60*24));
-var hours=Math.floor((d%(1000*60*60*24))/(1000*60*60));
-var minutes=Math.floor((d%(1000*60*60))/(1000*60));
-var seconds=Math.floor((d%(1000*60))/1000);
-document.getElementById("counter").innerHTML=
-"عدّى علينا: "+days+" يوم "+hours+" ساعة "+minutes+" دقيقة "+seconds+" ثانية ❤️";
-},1000);
-}
-
-function startYearCounter(){
-var end=new Date("Nov 13, 2026 00:00:00").getTime();
-setInterval(()=>{
-var now=new Date().getTime();
-var d=end-now;
-var days=Math.floor(d/(1000*60*60*24));
-document.getElementById("yearCounter").innerHTML=
-"🎉 باقي على أول سنة: "+days+" يوم ❤️";
-},1000);
-}
-
-function checkSecret(){
-if(document.getElementById("secretInput").value==="احمد"){
-document.getElementById("secretOverlay").style.display="flex";
-document.getElementById("secretSound").play();
-for(let i=0;i<40;i++){
-let h=document.createElement("div");
-h.className="heart";
-h.innerHTML="❤️";
-h.style.left=Math.random()*100+"vw";
-h.style.fontSize=Math.random()*30+20+"px";
-document.body.appendChild(h);
-setTimeout(()=>h.remove(),5000);
-}
-setTimeout(()=>{document.getElementById("secretOverlay").style.display="none";},5000);
-}else{
-alert("جرب تكتب الاسم صح 👀");
-}
-}
-
-function createEffects(){
-setInterval(()=>{
-let s=document.createElement("div");
-s.className="star";
-s.innerHTML="⭐";
-s.style.left=Math.random()*100+"vw";
-document.body.appendChild(s);
-setTimeout(()=>s.remove(),6000);
-},800);
 }
 
 function sendWhats(){
-let msg=document.getElementById("reply").value;
-if(!msg){alert("اكتبي حاجة الأول");return;}
-window.open("https://wa.me/8615268691947?text="+encodeURIComponent(msg));
+let msg=document.getElementById("whatsappMsg").value;
+let number="8615268691947";
+window.open("https://wa.me/"+number+"?text="+encodeURIComponent(msg));
 }
 
+let startDate=new Date("2024-01-01 00:00:00");
+function updateCountdown(){
+let now=new Date();
+let diff=now-startDate;
+
+let days=Math.floor(diff/(1000*60*60*24));
+let hours=Math.floor((diff%(1000*60*60*24))/(1000*60*60));
+let minutes=Math.floor((diff%(1000*60*60))/(1000*60));
+let seconds=Math.floor((diff%(1000*60))/1000);
+
+document.getElementById("countdown").innerHTML=
+"مع بعض بقالنا: "+days+" يوم "+hours+" ساعة "+minutes+" دقيقة "+seconds+" ثانية ❤️";
+}
+setInterval(updateCountdown,1000);
+
+function createFloating(){
+let container=document.getElementById("floating");
+for(let i=0;i<20;i++){
+let span=document.createElement("span");
+span.innerHTML=Math.random()>0.5?"❤️":"⭐";
+span.style.left=Math.random()*100+"%";
+span.style.animationDuration=(5+Math.random()*5)+"s";
+container.appendChild(span);
+}
+}
+createFloating();
+
+function explodeHearts(){
+for(let i=0;i<10;i++){
+let heart=document.createElement("span");
+heart.innerHTML="💖";
+heart.style.position="fixed";
+heart.style.left=Math.random()*100+"%";
+heart.style.top=Math.random()*100+"%";
+heart.style.fontSize="20px";
+heart.style.animation="float 2s linear forwards";
+document.body.appendChild(heart);
+setTimeout(()=>heart.remove(),2000);
+}
+}
 </script>
 
 </body>
