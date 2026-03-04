@@ -41,7 +41,7 @@ padding:10px 20px;
 border:none;
 border-radius:20px;
 cursor:pointer;
-background:#ff4d6d;
+background:#25D366;
 color:white;
 font-size:16px;
 }
@@ -56,7 +56,6 @@ border-radius:15px;
 margin:20px;
 }
 
-/* 3D Memory */
 .memory-card{
 width:260px;
 height:320px;
@@ -100,7 +99,6 @@ padding:15px;
 font-size:18px;
 }
 
-/* كلام من قلبي */
 .love-box{
 background:rgba(255,255,255,0.15);
 margin:15px auto;
@@ -116,6 +114,11 @@ background:rgba(255,255,255,0.3);
 transform:scale(1.05);
 }
 
+textarea{
+width:80%;
+height:80px;
+}
+
 </style>
 </head>
 <body>
@@ -125,7 +128,7 @@ transform:scale(1.05);
 <div id="intro">
 <h1>اكتب الباسورد ❤️</h1>
 <input type="password" id="passwordInput" placeholder="الباسورد">
-<button onclick="checkPassword()">ادخل</button>
+<button onclick="checkPassword()" style="background:#ff4d6d;">ادخل</button>
 <p id="errorMsg" style="display:none;color:red;">الباسورد غلط 😅</p>
 </div>
 
@@ -181,18 +184,17 @@ transform:scale(1.05);
 <div class="section">
 <h2>كلام من قلبي ليكي ❤️</h2>
 
-<div class="love-box" onclick="showLove(this)">
-دوسي هنا ❤️
+<div class="love-box" onclick="showLove(this)">دوسي هنا ❤️</div>
+<div class="love-box" onclick="showLove(this)">مفاجأة 😘</div>
+<div class="love-box" onclick="showLove(this)">رسالة حب 💌</div>
+
 </div>
 
-<div class="love-box" onclick="showLove(this)">
-دوسي هنا كمان 😘
-</div>
-
-<div class="love-box" onclick="showLove(this)">
-مفاجأة ليكي 💌
-</div>
-
+<div class="section">
+<h2>ابعتيلي رأيك واتس 💬</h2>
+<textarea id="replyText" placeholder="اكتبي رأيك هنا يا روحي ❤️"></textarea>
+<br>
+<button onclick="sendWhatsApp()">ابعت واتس</button>
 </div>
 
 </div>
@@ -217,11 +219,10 @@ document.getElementById("errorMsg").style.display="block";
 }
 
 function startCounters(){
-let startDate=new Date(2025,10,13,0,0,0).getTime();
-let firstYear=new Date(2026,10,13,0,0,0).getTime();
+let startDate=new Date(2025,10,13).getTime();
+let firstYear=new Date(2026,10,13).getTime();
 
 setInterval(function(){
-
 let now=new Date().getTime();
 let diff=now-startDate;
 
@@ -245,19 +246,18 @@ document.getElementById("countdownYear").innerHTML=
 "فاضل على أول سنة لينا: "+rDays+" يوم "+rHours+" ساعة "+rMinutes+" دقيقة "+rSeconds+" ثانية 🎉";
 }else{
 document.getElementById("countdownYear").innerHTML=
-"عدت أول سنة حب واحنا أقوى من أي وقت ❤️🎉";
+"عدت أول سنة حب واحنا أقوى ❤️🎉";
 }
 
 },1000);
 }
 
-/* كلام حب متغير */
 let loveMessages=[
-"انا بحبك اكتر من اي حاجة في الدنيا ❤️",
-"وجودك في حياتي نعمة كبيرة اوي 🥰",
-"انتي احلى صدفة حصلتلي 💖",
-"هفضل اختارك كل يوم حتى لو مفيش غيرك 😘",
-"قلبي بيطمن بس لما اسمع صوتك ❤️"
+"انا بحبك اكتر من اي حاجة ❤️",
+"وجودك في حياتي نعمة 🥰",
+"انتي اجمل حاجة حصلتلي 💖",
+"هفضل اختارك كل يوم 😘",
+"قلبي ملكك ❤️"
 ];
 
 function showLove(element){
@@ -265,7 +265,13 @@ let random=loveMessages[Math.floor(Math.random()*loveMessages.length)];
 element.innerHTML=random;
 }
 
-/* خلفية نجوم */
+function sendWhatsApp(){
+let text=document.getElementById("replyText").value;
+let phone="8615268691947";
+window.open("https://wa.me/"+phone+"?text="+encodeURIComponent(text));
+}
+
+/* نجوم */
 let canvas=document.getElementById("bg");
 let ctx=canvas.getContext("2d");
 canvas.width=window.innerWidth;
