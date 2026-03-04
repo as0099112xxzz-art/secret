@@ -2,6 +2,7 @@
 <html lang="ar">
 <head>
 <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Maloka ❤️</title>
 
 <style>
@@ -37,12 +38,10 @@ margin:10px;
 }
 
 button{
-padding:10px 20px;
+padding:12px 25px;
 border:none;
 border-radius:20px;
 cursor:pointer;
-background:#25D366;
-color:white;
 font-size:16px;
 }
 
@@ -128,7 +127,7 @@ height:80px;
 <div id="intro">
 <h1>اكتب الباسورد ❤️</h1>
 <input type="password" id="passwordInput" placeholder="الباسورد">
-<button onclick="checkPassword()" style="background:#ff4d6d;">ادخل</button>
+<button onclick="checkPassword()" style="background:#ff4d6d;color:white;">ادخل</button>
 <p id="errorMsg" style="display:none;color:red;">الباسورد غلط 😅</p>
 </div>
 
@@ -183,18 +182,21 @@ height:80px;
 
 <div class="section">
 <h2>كلام من قلبي ليكي ❤️</h2>
-
 <div class="love-box" onclick="showLove(this)">دوسي هنا ❤️</div>
 <div class="love-box" onclick="showLove(this)">مفاجأة 😘</div>
 <div class="love-box" onclick="showLove(this)">رسالة حب 💌</div>
-
 </div>
 
 <div class="section">
 <h2>ابعتيلي رأيك واتس 💬</h2>
+
 <textarea id="replyText" placeholder="اكتبي رأيك هنا يا روحي ❤️"></textarea>
-<br>
-<button onclick="sendWhatsApp()">ابعت واتس</button>
+<br><br>
+
+<button onclick="sendWhatsApp()" style="background:#25D366;color:white;">
+ابعت واتس
+</button>
+
 </div>
 
 </div>
@@ -267,11 +269,17 @@ element.innerHTML=random;
 
 function sendWhatsApp(){
 let text=document.getElementById("replyText").value;
+
+if(text.trim()===""){
+alert("اكتبي حاجة الأول ❤️");
+return;
+}
+
 let phone="8615268691947";
 window.open("https://wa.me/"+phone+"?text="+encodeURIComponent(text));
 }
 
-/* نجوم */
+/* خلفية نجوم */
 let canvas=document.getElementById("bg");
 let ctx=canvas.getContext("2d");
 canvas.width=window.innerWidth;
