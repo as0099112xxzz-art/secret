@@ -50,28 +50,13 @@ font-size:16px;
 margin-top:60px;
 }
 
-.card{
-background:rgba(255,255,255,0.1);
-margin:15px auto;
-padding:20px;
-border-radius:15px;
-width:80%;
-cursor:pointer;
-transition:0.3s;
-}
-
-.card:hover{
-background:rgba(255,255,255,0.3);
-transform:scale(1.05);
-}
-
 .main-img{
 width:260px;
 border-radius:15px;
 margin:20px;
 }
 
-/* 3D Memories */
+/* 3D Memory */
 .memory-card{
 width:260px;
 height:320px;
@@ -112,14 +97,25 @@ align-items:center;
 justify-content:center;
 transform:rotateY(180deg);
 padding:15px;
-}
-
-#secretMessage{
-display:none;
-margin-top:20px;
-color:#ffb3c6;
 font-size:18px;
 }
+
+/* كلام من قلبي */
+.love-box{
+background:rgba(255,255,255,0.15);
+margin:15px auto;
+padding:20px;
+border-radius:15px;
+width:80%;
+cursor:pointer;
+transition:0.3s;
+}
+
+.love-box:hover{
+background:rgba(255,255,255,0.3);
+transform:scale(1.05);
+}
+
 </style>
 </head>
 <body>
@@ -136,31 +132,10 @@ font-size:18px;
 <div id="mainContent" style="display:none;">
 
 <h1>Maloka ❤️</h1>
-
 <img src="love1.jpg" class="main-img">
 
 <h2 id="counter"></h2>
 <h2 id="countdownYear"></h2>
-
-<div class="section">
-<h2>مواقفنا ❤️</h2>
-
-<div class="card">
-فاكره لما قولتيلي انا بالنسبالك اي  
-ساعتها كنت بحبك بس خايف اقولها تزعلي ❤️
-</div>
-
-<div class="card">
-فاكره لما كنا بنلعب ببجي سوا  
-وتقوليلي شيل المود عشان مش بحبو 😂
-</div>
-
-<div class="card">
-هنفضل مع بعض دايما  
-وقصه حبنا هتنجح صح يا روحي ؟ ❤️
-</div>
-
-</div>
 
 <div class="section">
 <h2>ذكرياتنا 📸</h2>
@@ -171,7 +146,8 @@ font-size:18px;
 <img src="memory1.jpg">
 </div>
 <div class="memory-back">
-لما كنا بنخبي مشاعرنا ونكتبها في دفاترنا ❤️
+فاكره لما قولتيلي انا بالنسبالك اي  
+ساعتها كنت بحبك بس خايف اقولها تزعلي ❤️
 </div>
 </div>
 </div>
@@ -182,7 +158,8 @@ font-size:18px;
 <img src="memory2.jpg">
 </div>
 <div class="memory-back">
-فاكره الريكوردات اللي كنتي تخليني اعيدها 😂
+فاكره لما كنا بنلعب ببجي سوا  
+وتقوليلي شيل المود عشان مش بحبو 😂
 </div>
 </div>
 </div>
@@ -193,7 +170,8 @@ font-size:18px;
 <img src="memory3.jpg">
 </div>
 <div class="memory-back">
-الناس هتعرف ان حبنا حقيقي ❤️
+هنفضل مع بعض دايما  
+وقصه حبنا هتنجح صح يا روحي ؟ ❤️
 </div>
 </div>
 </div>
@@ -201,24 +179,25 @@ font-size:18px;
 </div>
 
 <div class="section">
-<h2>رسالة سرية 🔒</h2>
-<input type="text" id="secretInput" placeholder="اكتب اسم معين">
-<button onclick="checkSecret()">افتح</button>
-<p id="secretMessage">
-انا بحبك يا روحي ومش هسيبك ابداً ❤️
-</p>
+<h2>كلام من قلبي ليكي ❤️</h2>
+
+<div class="love-box" onclick="showLove(this)">
+دوسي هنا ❤️
 </div>
 
-<div class="section">
-<h2>ابعتيلي ردك هنا 💬</h2>
-<textarea id="replyText" placeholder="اكتبي رأيك هنا" style="width:80%;height:80px;"></textarea>
-<br>
-<button onclick="sendWhatsApp()">ابعت واتس</button>
+<div class="love-box" onclick="showLove(this)">
+دوسي هنا كمان 😘
+</div>
+
+<div class="love-box" onclick="showLove(this)">
+مفاجأة ليكي 💌
 </div>
 
 </div>
 
-<audio id="music" loop preload="auto">
+</div>
+
+<audio id="music" loop>
 <source src="music1.mp3" type="audio/mp3">
 </audio>
 
@@ -238,16 +217,12 @@ document.getElementById("errorMsg").style.display="block";
 }
 
 function startCounters(){
-
-/* بداية العلاقة 13 نوفمبر 2025 */
 let startDate=new Date(2025,10,13,0,0,0).getTime();
-/* أول سنة 13 نوفمبر 2026 */
 let firstYear=new Date(2026,10,13,0,0,0).getTime();
 
 setInterval(function(){
 
 let now=new Date().getTime();
-
 let diff=now-startDate;
 
 let days=Math.floor(diff/(1000*60*60*24));
@@ -261,7 +236,6 @@ document.getElementById("counter").innerHTML=
 let remaining=firstYear-now;
 
 if(remaining>0){
-
 let rDays=Math.floor(remaining/(1000*60*60*24));
 let rHours=Math.floor((remaining%(1000*60*60*24))/(1000*60*60));
 let rMinutes=Math.floor((remaining%(1000*60*60))/(1000*60));
@@ -269,7 +243,6 @@ let rSeconds=Math.floor((remaining%(1000*60))/1000);
 
 document.getElementById("countdownYear").innerHTML=
 "فاضل على أول سنة لينا: "+rDays+" يوم "+rHours+" ساعة "+rMinutes+" دقيقة "+rSeconds+" ثانية 🎉";
-
 }else{
 document.getElementById("countdownYear").innerHTML=
 "عدت أول سنة حب واحنا أقوى من أي وقت ❤️🎉";
@@ -278,17 +251,18 @@ document.getElementById("countdownYear").innerHTML=
 },1000);
 }
 
-function checkSecret(){
-let value=document.getElementById("secretInput").value;
-if(value==="احمد"){
-document.getElementById("secretMessage").style.display="block";
-}
-}
+/* كلام حب متغير */
+let loveMessages=[
+"انا بحبك اكتر من اي حاجة في الدنيا ❤️",
+"وجودك في حياتي نعمة كبيرة اوي 🥰",
+"انتي احلى صدفة حصلتلي 💖",
+"هفضل اختارك كل يوم حتى لو مفيش غيرك 😘",
+"قلبي بيطمن بس لما اسمع صوتك ❤️"
+];
 
-function sendWhatsApp(){
-let text=document.getElementById("replyText").value;
-let phone="8615268691947";
-window.open("https://wa.me/"+phone+"?text="+encodeURIComponent(text));
+function showLove(element){
+let random=loveMessages[Math.floor(Math.random()*loveMessages.length)];
+element.innerHTML=random;
 }
 
 /* خلفية نجوم */
