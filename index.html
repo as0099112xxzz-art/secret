@@ -8,7 +8,7 @@
 body{
 margin:0;
 padding:0;
-background:radial-gradient(circle at top, #2b0000, black);
+background:radial-gradient(circle at top,#300000,black);
 color:white;
 font-family:Arial;
 text-align:center;
@@ -22,9 +22,8 @@ left:50%;
 transform:translate(-50%,-50%);
 }
 
-input, textarea{
+input,textarea{
 padding:10px;
-font-size:18px;
 border-radius:10px;
 border:none;
 width:80%;
@@ -32,49 +31,58 @@ max-width:350px;
 }
 
 button{
-padding:12px 22px;
-font-size:18px;
-border-radius:12px;
+padding:10px 20px;
 border:none;
-background:linear-gradient(45deg, red, pink);
+border-radius:10px;
+background:linear-gradient(45deg,red,pink);
 color:white;
 cursor:pointer;
-box-shadow:0 0 15px red;
 margin-top:10px;
 }
 
-#content{
-display:none;
-padding-top:30px;
+#content{display:none;padding:20px;}
+
+.card{
+width:250px;
+height:150px;
+margin:20px auto;
+perspective:1000px;
 }
 
-h1,h2{
-color:pink;
+.card-inner{
+position:relative;
+width:100%;
+height:100%;
+transition:transform 0.8s;
+transform-style:preserve-3d;
 }
 
-.typing{
-font-size:22px;
-width:85%;
-margin:auto;
-white-space:pre-line;
-line-height:1.8;
-margin-top:20px;
+.card:hover .card-inner{
+transform:rotateY(180deg);
 }
 
-#counter{
-font-size:20px;
-margin-top:15px;
-color:pink;
+.card-front,.card-back{
+position:absolute;
+width:100%;
+height:100%;
+backface-visibility:hidden;
+border-radius:15px;
+display:flex;
+align-items:center;
+justify-content:center;
+background:rgba(255,0,0,0.2);
+box-shadow:0 0 15px red;
+padding:10px;
+}
+
+.card-back{
+transform:rotateY(180deg);
+background:rgba(255,105,180,0.3);
 }
 
 .heart,.star{
-position:absolute;
-animation:float 7s linear infinite;
-}
-
-.star{
-color:#ffd700;
-font-size:12px;
+position:fixed;
+animation:float 6s linear infinite;
 }
 
 @keyframes float{
@@ -82,26 +90,23 @@ font-size:12px;
 100%{transform:translateY(-10vh);}
 }
 
-.card{
-background:rgba(255,0,0,0.15);
-margin:15px auto;
-padding:15px;
-border-radius:15px;
-width:85%;
-max-width:320px;
-box-shadow:0 0 15px red;
-cursor:pointer;
-}
-
-.card span{
+#secretOverlay{
+position:fixed;
+top:0;
+left:0;
+width:100%;
+height:100%;
+background:rgba(0,0,0,0.85);
 display:none;
-margin-top:10px;
-font-size:18px;
+align-items:center;
+justify-content:center;
+flex-direction:column;
+z-index:999;
 }
 
-textarea{
-margin-top:10px;
-height:100px;
+#surpriseBtn{
+display:none;
+margin-top:20px;
 }
 
 </style>
@@ -111,143 +116,139 @@ height:100px;
 
 <div id="login">
 <h2>اكتب الباسورد ❤️</h2>
-<input type="password" id="pass" placeholder="الباسورد هنا">
+<input type="password" id="pass">
 <br><br>
 <button onclick="checkPass()">دخول</button>
 </div>
 
 <div id="content">
 
-<h1 id="nameTitle"></h1>
+<h1>❤️ Maloka ❤️</h1>
 
-<img src="love1.jpg" style="max-width:300px;border-radius:20px;box-shadow:0 0 25px red;margin-top:15px;">
+<img src="love1.jpg" style="max-width:300px;border-radius:20px;box-shadow:0 0 20px red;">
 
-<div id="counter"></div>
-
-<p class="typing" id="text"></p>
+<h3 id="counter"></h3>
+<h3 id="yearCounter" style="color:gold;"></h3>
 
 <h2>🃏 دوسي على الكروت</h2>
 
-<div class="card" onclick="showText(this)">
-كارت 1
-<span>محبيتش</span>
+<div class="card">
+<div class="card-inner">
+<div class="card-front">اضغطي هنا ❤️</div>
+<div class="card-back">محبيتش ولا هحب حد قدك</div>
 </div>
-
-<div class="card" onclick="showText(this)">
-كارت 2
-<span>ولا هحب</span>
-</div>
-
-<div class="card" onclick="showText(this)">
-كارت 3
-<span>حد قدك ❤️</span>
 </div>
 
 <h2>📸 ذكرياتنا</h2>
 
-<div class="card">
-<img src="memory1.jpg" style="width:100%;border-radius:12px;">
-<p>أول صورة لينا ❤️</p>
-</div>
+<img src="memory1.jpg" style="width:80%;max-width:300px;border-radius:15px;margin:10px;">
+<img src="memory2.jpg" style="width:80%;max-width:300px;border-radius:15px;margin:10px;">
+<img src="memory3.jpg" style="width:80%;max-width:300px;border-radius:15px;margin:10px;">
 
-<div class="card">
-<img src="memory2.jpg" style="width:100%;border-radius:12px;">
-<p>أكتر يوم ضحكنا فيه 😂</p>
-</div>
+<h2>💌 رسالة سرية</h2>
 
-<div class="card">
-<img src="memory3.jpg" style="width:100%;border-radius:12px;">
-<p>أول اعتراف 💌</p>
-</div>
+<input type="text" id="secretInput" placeholder="اكتب الاسم">
+<br>
+<button onclick="checkSecret()">افتح الرسالة</button>
+
+<br><br>
 
 <h2>💬 اكتبيلي رأيك هنا</h2>
-
-<textarea id="reply" placeholder="اكتبي اللي في قلبك هنا ❤️"></textarea>
+<textarea id="reply"></textarea>
 <br>
 <button onclick="sendWhats()">ابعتيلي رأيك</button>
+
+<button id="surpriseBtn" onclick="alert('أنا بختارك كل يوم ❤️')">
+عندي مفاجأة ليكي 🎁
+</button>
 
 <audio id="bgMusic" loop>
 <source src="music.mp3" type="audio/mpeg">
 </audio>
 
+<audio id="secretSound">
+<source src="secret.mp3" type="audio/mpeg">
+</audio>
+
+</div>
+
+<div id="secretOverlay">
+<h1>أنا محبيتش ولا هحب حد قدك ❤️</h1>
 </div>
 
 <script>
 
 function checkPass(){
-if(document.getElementById("pass").value === "love"){
+if(document.getElementById("pass").value==="love"){
 document.getElementById("login").style.display="none";
 document.getElementById("content").style.display="block";
 document.getElementById("bgMusic").play();
-askName();
-typeWriter();
-createHearts();
 startCounter();
-}else{
-alert("الباسورد غلط 😢");
-}
-}
-
-function askName(){
-let name = prompt("اكتبي اسمك ❤️");
-if(name){
-document.getElementById("nameTitle").innerText = "❤️ " + name + " ❤️";
-alert("عندي رسالة سرية ليكي 💌\nأنا محبيتش ولا هحب حد قدك");
-}
-}
-
-var i=0;
-var txt="من يوم ما عرفتك وأنا بختارك كل يوم...\nومهما يعدي وقت قلبي ثابت عليك ❤️";
-
-function typeWriter(){
-if(i<txt.length){
-document.getElementById("text").innerHTML+=txt.charAt(i);
-i++;
-setTimeout(typeWriter,45);
-}
+startYearCounter();
+createEffects();
+setTimeout(()=>{document.getElementById("surpriseBtn").style.display="block";},30000);
+}else{alert("الباسورد غلط");}
 }
 
 function startCounter(){
-var startDate=new Date("November 13, 2025 00:00:00").getTime();
-setInterval(function(){
+var start=new Date("Nov 13, 2025 00:00:00").getTime();
+setInterval(()=>{
 var now=new Date().getTime();
-var d=now-startDate;
+var d=now-start;
 var days=Math.floor(d/(1000*60*60*24));
-document.getElementById("counter").innerHTML="عدّى علينا "+days+" يوم ❤️";
+var hours=Math.floor((d%(1000*60*60*24))/(1000*60*60));
+var minutes=Math.floor((d%(1000*60*60))/(1000*60));
+var seconds=Math.floor((d%(1000*60))/1000);
+document.getElementById("counter").innerHTML=
+"عدّى علينا: "+days+" يوم "+hours+" ساعة "+minutes+" دقيقة "+seconds+" ثانية ❤️";
 },1000);
 }
 
-function createHearts(){
-setInterval(function(){
+function startYearCounter(){
+var end=new Date("Nov 13, 2026 00:00:00").getTime();
+setInterval(()=>{
+var now=new Date().getTime();
+var d=end-now;
+var days=Math.floor(d/(1000*60*60*24));
+document.getElementById("yearCounter").innerHTML=
+"🎉 باقي على أول سنة: "+days+" يوم ❤️";
+},1000);
+}
+
+function checkSecret(){
+if(document.getElementById("secretInput").value==="احمد"){
+document.getElementById("secretOverlay").style.display="flex";
+document.getElementById("secretSound").play();
+for(let i=0;i<40;i++){
 let h=document.createElement("div");
 h.className="heart";
 h.innerHTML="❤️";
 h.style.left=Math.random()*100+"vw";
-h.style.fontSize=Math.random()*20+20+"px";
+h.style.fontSize=Math.random()*30+20+"px";
 document.body.appendChild(h);
-setTimeout(()=>h.remove(),7000);
-},500);
+setTimeout(()=>h.remove(),5000);
+}
+setTimeout(()=>{document.getElementById("secretOverlay").style.display="none";},5000);
+}else{
+alert("جرب تكتب الاسم صح 👀");
+}
+}
 
-setInterval(function(){
+function createEffects(){
+setInterval(()=>{
 let s=document.createElement("div");
 s.className="star";
 s.innerHTML="⭐";
 s.style.left=Math.random()*100+"vw";
 document.body.appendChild(s);
-setTimeout(()=>s.remove(),7000);
+setTimeout(()=>s.remove(),6000);
 },800);
-}
-
-function showText(card){
-card.querySelector("span").style.display="block";
 }
 
 function sendWhats(){
 let msg=document.getElementById("reply").value;
-if(!msg){alert("اكتبي حاجة الأول ❤️");return;}
-let phone="8615268691947";
-let url="https://wa.me/"+phone+"?text="+encodeURIComponent(msg);
-window.open(url,"_blank");
+if(!msg){alert("اكتبي حاجة الأول");return;}
+window.open("https://wa.me/8615268691947?text="+encodeURIComponent(msg));
 }
 
 </script>
