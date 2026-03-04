@@ -5,45 +5,14 @@
 <title>For You ❤️</title>
 
 <style>
-html,body{
+body{
 margin:0;
 padding:0;
-min-height:100%;
-overflow-x:hidden;
-overflow-y:auto;
+background:radial-gradient(circle at top, #1a0000, #000);
+color:white;
 font-family:Arial;
 text-align:center;
-color:white;
-background:black;
-}
-
-/* نجوم */
-.star{
-position:fixed;
-width:2px;
-height:2px;
-background:white;
-border-radius:50%;
-animation:twinkle 2s infinite alternate;
-z-index:0;
-}
-
-@keyframes twinkle{
-from{opacity:0.2;}
-to{opacity:1;}
-}
-
-/* قلوب طايرة */
-.heart{
-position:fixed;
-color:red;
-animation:float 6s linear infinite;
-z-index:0;
-}
-
-@keyframes float{
-0%{transform:translateY(100vh);}
-100%{transform:translateY(-10vh);}
+overflow-y:auto;
 }
 
 #login{
@@ -51,7 +20,15 @@ position:absolute;
 top:50%;
 left:50%;
 transform:translate(-50%,-50%);
-z-index:2;
+}
+
+input, textarea{
+padding:10px;
+font-size:18px;
+border-radius:10px;
+border:none;
+width:80%;
+max-width:350px;
 }
 
 button{
@@ -63,32 +40,12 @@ background:linear-gradient(45deg, red, pink);
 color:white;
 cursor:pointer;
 box-shadow:0 0 15px red;
-margin:8px;
-}
-
-input{
-padding:10px;
-font-size:18px;
-border-radius:10px;
-border:none;
+margin-top:10px;
 }
 
 #content{
 display:none;
-padding:60px 20px;
-position:relative;
-z-index:2;
-}
-
-#malokaName{
-font-size:34px;
-color:pink;
-animation:glow 2s infinite alternate;
-}
-
-@keyframes glow{
-from{ text-shadow:0 0 5px pink; }
-to{ text-shadow:0 0 25px red; }
+padding:30px 10px;
 }
 
 .typing{
@@ -106,15 +63,47 @@ margin-top:15px;
 color:pink;
 }
 
-#secretBox{
-display:none;
-margin-top:25px;
-padding:20px;
-border:1px solid pink;
-border-radius:15px;
-background:rgba(0,0,0,0.7);
+.heart,.star{
+position:fixed;
+animation:float 8s linear infinite;
+pointer-events:none;
 }
 
+.star{
+color:white;
+font-size:10px;
+}
+
+@keyframes float{
+0%{transform:translateY(100vh);opacity:0}
+10%{opacity:1}
+100%{transform:translateY(-10vh);opacity:0}
+}
+
+.cards{
+display:flex;
+flex-wrap:wrap;
+justify-content:center;
+gap:15px;
+margin-top:30px;
+}
+
+.card{
+width:150px;
+background:rgba(255,0,0,0.15);
+padding:15px;
+border-radius:15px;
+cursor:pointer;
+transition:0.3s;
+}
+
+.card:hover{transform:scale(1.05)}
+.hiddenText{display:none;margin-top:10px}
+
+.memory img{
+width:100%;
+border-radius:12px;
+}
 </style>
 </head>
 
@@ -129,29 +118,40 @@ background:rgba(0,0,0,0.7);
 
 <div id="content">
 
-<h2 id="malokaName">Maloka ❤️</h2>
+<h1 id="nameTitle"></h1>
 
-<h1>❤️ من يوم 13 نوفمبر 2025 ❤️</h1>
+<img src="love1.jpg" style="max-width:300px;border-radius:20px;box-shadow:0 0 20px red;">
 
 <div id="counter"></div>
 
 <p class="typing" id="text"></p>
 
-<div id="imageContainer"></div>
-
-<br>
-
-<button onclick="showSecret()">رسالة سرية 🔐</button>
-
-<div id="secretBox">
-<p>اكتب الكلمة السرية 👀</p>
-<input type="text" id="secretInput">
-<br><br>
-<button onclick="checkSecret()">فتح الرسالة</button>
-<p id="secretMessage" style="margin-top:15px;font-size:20px;color:pink;"></p>
+<h2>🧠 كلمات من قلبي</h2>
+<div class="cards">
+<div class="card" onclick="toggle(this)">محبّتش<span class="hiddenText">ولا هحب</span></div>
+<div class="card" onclick="toggle(this)">حد<span class="hiddenText">قدك</span></div>
+<div class="card" onclick="toggle(this)">إنتي<span class="hiddenText">اختياري</span></div>
 </div>
 
-<br>
+<h2>📸 ذكرياتنا</h2>
+<div class="cards">
+<div class="card memory">
+<img src="memory1.jpg">
+<p>أول صورة ❤️</p>
+</div>
+<div class="card memory">
+<img src="memory2.jpg">
+<p>أول ضحكة 😂</p>
+</div>
+<div class="card memory">
+<img src="memory3.jpg">
+<p>أول اعتراف 💌</p>
+</div>
+</div>
+
+<h2>💬 اكتبيلي رأيك هنا</h2>
+<textarea id="reply" placeholder="اكتبي اللي في قلبك ❤️"></textarea><br>
+<button onclick="sendWhats()">إبعت ❤️</button>
 
 <audio id="bgMusic" loop>
 <source src="music.mp3" type="audio/mpeg">
@@ -160,95 +160,56 @@ background:rgba(0,0,0,0.7);
 </div>
 
 <script>
-
-/* نجوم */
-for(let i=0;i<120;i++){
-let star=document.createElement("div");
-star.className="star";
-star.style.top=Math.random()*100+"vh";
-star.style.left=Math.random()*100+"vw";
-star.style.animationDuration=Math.random()*3+1+"s";
-document.body.appendChild(star);
-}
-
-/* قلوب */
-setInterval(function(){
-let heart=document.createElement("div");
-heart.className="heart";
-heart.innerHTML="❤️";
-heart.style.left=Math.random()*100+"vw";
-heart.style.fontSize=Math.random()*20+15+"px";
-document.body.appendChild(heart);
-setTimeout(()=>heart.remove(),6000);
-},700);
-
-/* الكتابة */
-var i=0;
-var txt="من يوم ما عرفتك وأنا حاسس إن الدنيا بقت أهدى وأجمل ❤️\n\nكل يوم بيعدي وإنتِ فيه بيأكدلي إني محظوظ.\nوجودك في حياتي فرق معايا في كل حاجة.\n\nأنا بختارك كل يوم 💕";
-
 function checkPass(){
-if(document.getElementById("pass").value==="love"){
-document.getElementById("login").style.display="none";
-document.getElementById("content").style.display="block";
-
-document.getElementById("bgMusic").play();
-
-i=0;
-document.getElementById("text").innerHTML="";
-
-document.getElementById("imageContainer").innerHTML=
-'<img src="love1.jpg" style="margin-top:30px;max-width:320px;border-radius:20px;box-shadow:0 0 30px red;">';
-
+if(pass.value==="love"){
+login.style.display="none";
+content.style.display="block";
+bgMusic.play();
+nameTitle.innerText="Maloka ❤️";
 typeWriter();
 startCounter();
-}else{
-alert("الباسورد غلط 😢");
-}
+createBG();
+}else alert("غلط 😢");
 }
 
+var txt="من يوم ما عرفتك وأنا حاسس إن الدنيا بقت أهدى وأجمل ❤️\n\nكل يوم بيعدي وإنتِ فيه بيأكدلي إني محظوظ.\n\nأنا بختارك كل يوم.";
+var i=0;
 function typeWriter(){
 if(i<txt.length){
-document.getElementById("text").innerHTML+=txt.charAt(i);
-i++;
-setTimeout(typeWriter,45);
+text.innerHTML+=txt.charAt(i++);
+setTimeout(typeWriter,40);
 }
 }
 
-/* العداد */
 function startCounter(){
-var startDate=new Date("November 13, 2025 00:00:00").getTime();
-setInterval(function(){
+var start=new Date("November 13, 2025").getTime();
+setInterval(()=>{
 var now=new Date().getTime();
-var distance=now-startDate;
-
-var days=Math.floor(distance/(1000*60*60*24));
-var hours=Math.floor((distance%(1000*60*60*24))/(1000*60*60));
-var minutes=Math.floor((distance%(1000*60*60))/(1000*60));
-var seconds=Math.floor((distance%(1000*60))/1000);
-
-document.getElementById("counter").innerHTML=
-"عدّى علينا: "+days+" يوم "+
-hours+" ساعة "+
-minutes+" دقيقة "+
-seconds+" ثانية ❤️";
+var d=now-start;
+counter.innerHTML=`عدّى علينا ${Math.floor(d/86400000)} يوم ❤️`;
 },1000);
 }
 
-/* رسالة سرية */
-function showSecret(){
-document.getElementById("secretBox").style.display="block";
+function toggle(el){
+el.querySelector(".hiddenText").style.display="block";
 }
 
-function checkSecret(){
-var val=document.getElementById("secretInput").value.toLowerCase();
-if(val==="ahmed"){
-document.getElementById("secretMessage").innerHTML=
-"إنتِ السر الحلو في حياتي ❤️ ومفيش حد هيعرف قد إيه بحبك غير ربنا 💕";
-}else{
-document.getElementById("secretMessage").innerHTML="حاولي تاني 👀";
-}
+function createBG(){
+setInterval(()=>{
+let h=document.createElement("div");
+h.className=Math.random()>0.5?"heart":"star";
+h.innerHTML=Math.random()>0.5?"❤️":"✦";
+h.style.left=Math.random()*100+"vw";
+h.style.fontSize=Math.random()*20+10+"px";
+document.body.appendChild(h);
+setTimeout(()=>h.remove(),8000);
+},400);
 }
 
+function sendWhats(){
+let msg=encodeURIComponent(reply.value);
+window.open("https://wa.me/8615268691947?text="+msg,"_blank");
+}
 </script>
 
 </body>
