@@ -8,11 +8,21 @@
 body{
 margin:0;
 padding:0;
-background:black;
 color:white;
 font-family:Arial;
 text-align:center;
 overflow:hidden;
+
+/* خلفية متحركة */
+background:linear-gradient(-45deg,#000000,#1a001a,#330033,#000000);
+background-size:400% 400%;
+animation:gradientBG 10s ease infinite;
+}
+
+@keyframes gradientBG{
+0%{background-position:0% 50%;}
+50%{background-position:100% 50%;}
+100%{background-position:0% 50%;}
 }
 
 #login{
@@ -46,16 +56,15 @@ display:none;
 padding-top:50px;
 }
 
-h1{
-color:red;
-font-size:35px;
-}
-
 #malokaName{
 font-size:32px;
 color:pink;
-opacity:0;
-transition:1.5s;
+animation:glow 2s infinite alternate;
+}
+
+@keyframes glow{
+from{ text-shadow:0 0 5px pink; }
+to{ text-shadow:0 0 25px red; }
 }
 
 .typing{
@@ -73,80 +82,22 @@ margin-top:15px;
 color:pink;
 }
 
-.heart{
-position:absolute;
-color:red;
-animation:float 6s linear infinite;
-}
-
-@keyframes float{
-0%{transform:translateY(100vh);}
-100%{transform:translateY(-10vh);}
-}
-
-.card{
-display:inline-block;
-background:#111;
-padding:18px;
-margin:8px;
-border-radius:15px;
-cursor:pointer;
-box-shadow:0 0 15px red;
-}
-
-#cardsMessage{
-font-size:24px;
-margin-top:15px;
-color:pink;
-min-height:30px;
-}
-
-.shake{
-animation:shake 0.5s;
-}
-
-@keyframes shake{
-0%{transform:translateX(0);}
-25%{transform:translateX(-8px);}
-50%{transform:translateX(8px);}
-75%{transform:translateX(-8px);}
-100%{transform:translateX(0);}
-}
-
-.explodeHeart{
-position:fixed;
-color:red;
-font-size:25px;
-animation:explode 1s ease-out forwards;
-pointer-events:none;
-z-index:1000;
-}
-
-@keyframes explode{
-0%{transform:translate(0,0) scale(1);opacity:1;}
-100%{transform:translate(var(--x),var(--y)) scale(2);opacity:0;}
-}
-
-#surpriseBox{
-visibility:hidden;
-position:fixed;
-top:0;
-left:0;
-width:100%;
-height:100%;
-background:rgba(0,0,0,0.95);
-display:flex;
-justify-content:center;
-align-items:center;
-text-align:center;
+/* الرسالة السرية */
+#secretBox{
+display:none;
+margin-top:20px;
 padding:20px;
-flex-direction:column;
-z-index:999;
+border:1px solid pink;
+border-radius:15px;
+background:rgba(0,0,0,0.7);
+animation:fadeIn 1s ease;
 }
 
-#surpriseBox.active{
-visibility:visible;
+@keyframes fadeIn{
+from{opacity:0;}
+to{opacity:1;}
 }
+
 </style>
 </head>
 
@@ -154,7 +105,7 @@ visibility:visible;
 
 <div id="login">
 <h2>اكتب الباسورد ❤️</h2>
-<input type="password" id="pass" placeholder="الباسورد هنا">
+<input type="password" id="pass">
 <br><br>
 <button onclick="checkPass()">دخول</button>
 </div>
@@ -169,167 +120,77 @@ visibility:visible;
 
 <p class="typing" id="text"></p>
 
-<div id="imageContainer"></div>
-
 <br>
 
-<div>
-<div class="card" onclick="showWord(this)">❤️</div>
-<div class="card" onclick="showWord(this)">💕</div>
-<div class="card" onclick="showWord(this)">💖</div>
-<div class="card" onclick="showWord(this)">💘</div>
-<div class="card" onclick="showWord(this)">💞</div>
-<div class="card" onclick="showWord(this)">💗</div>
+<button onclick="showSecret()">رسالة سرية 🔐</button>
+
+<div id="secretBox">
+<p>اكتب الكلمة السرية 👀</p>
+<input type="text" id="secretInput">
+<br><br>
+<button onclick="checkSecret()">فتح الرسالة</button>
+<p id="secretMessage" style="margin-top:15px;font-size:20px;color:pink;"></p>
 </div>
 
-<div id="cardsMessage"></div>
-
-<br>
-
-<button onclick="surprise()">اضغطي هنا يا أجمل حاجة في حياتي ❤️</button>
-
-<br>
-
-<a href="https://wa.me/8615268691947?text=Maloka%20❤️%20شوفت%20الموقع%20ومش%20مصدقة%20قد%20إيه%20حبيته%20😭❤️" target="_blank">
-<button>ابعتيلي ردك ❤️</button>
-</a>
-
-<audio id="bgMusic" loop>
-<source src="music.mp3" type="audio/mpeg">
-</audio>
-
-</div>
-
-<div id="surpriseBox">
-<h1 style="color:red;">مفاجأة ❤️</h1>
-<p style="font-size:24px; line-height:1.8; max-width:700px;">
-أنا ما اخترتش أحبك…  
-أنا لقيت نفسي بحبك من غير ما أحس ❤️  
-من أول يوم 13 نوفمبر 2025  
-وحياتي بدأت تاخد شكل تاني  
-إنتِ أماني، وضحكتي، وسبب سعادتي  
-وكل حلم نفسي أعيشه يكون وإنتِ معايا 💕  
-لو الزمن رجع بيا هختارك ألف مرة  
-بحبك… وهفضل أحبك طول العمر ❤️
-</p>
-<br>
-<button onclick="closeSurprise()">اقفلي المفاجأة ❤️</button>
 </div>
 
 <script>
 
-var i = 0;
-var txt = "من يوم ما عرفتك وأنا حاسس إن الدنيا بقت أهدى وأجمل ❤️\n\nكل يوم بيعدي وإنتِ فيه بيأكدلي إني محظوظ.\nوجودك في حياتي فرق معايا في كل حاجة.\n\nمش بس بحبك…\nأنا بختارك كل يوم.\nوبتمنى نكمل المشوار سوا لآخر العمر 💕";
+var i=0;
+var txt="من يوم ما عرفتك وأنا حاسس إن الدنيا بقت أهدى وأجمل ❤️\n\nكل يوم بيعدي وإنتِ فيه بيأكدلي إني محظوظ.\nوجودك في حياتي فرق معايا في كل حاجة.\n\nأنا بختارك كل يوم 💕";
 
 function checkPass(){
-var password = document.getElementById("pass").value;
-
-if(password === "love"){
+if(document.getElementById("pass").value==="love"){
 document.getElementById("login").style.display="none";
 document.getElementById("content").style.display="block";
-document.getElementById("bgMusic").play();
-document.getElementById("malokaName").style.opacity="1";
-
-/* نضمن إن الكلام يبدأ من الأول */
-i = 0;
-document.getElementById("text").innerHTML = "";
-
-/* نضمن إن الصورة تظهر */
-document.getElementById("imageContainer").innerHTML =
-'<img src="love1.jpg" style="margin-top:30px;max-width:320px;border-radius:20px;box-shadow:0 0 30px red;">';
-
+i=0;
+document.getElementById("text").innerHTML="";
 typeWriter();
-createHearts();
 startCounter();
-
-}else{
-alert("الباسورد غلط 😢");
 }
 }
 
 function typeWriter(){
-if(i < txt.length){
-document.getElementById("text").innerHTML += txt.charAt(i);
+if(i<txt.length){
+document.getElementById("text").innerHTML+=txt.charAt(i);
 i++;
 setTimeout(typeWriter,45);
 }
 }
 
 function startCounter(){
-var startDate = new Date("November 13, 2025 00:00:00").getTime();
+var startDate=new Date("November 13, 2025 00:00:00").getTime();
 setInterval(function(){
-var now = new Date().getTime();
-var distance = now - startDate;
+var now=new Date().getTime();
+var distance=now-startDate;
 
-var days = Math.floor(distance / (1000 * 60 * 60 * 24));
-var hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
-var seconds = Math.floor((distance % (1000 * 60)) / 1000);
+var days=Math.floor(distance/(1000*60*60*24));
+var hours=Math.floor((distance%(1000*60*60*24))/(1000*60*60));
+var minutes=Math.floor((distance%(1000*60*60))/(1000*60));
+var seconds=Math.floor((distance%(1000*60))/1000);
 
-document.getElementById("counter").innerHTML =
-"عدّى علينا: " + days + " يوم " +
-hours + " ساعة " +
-minutes + " دقيقة " +
-seconds + " ثانية ❤️";
+document.getElementById("counter").innerHTML=
+"عدّى علينا: "+days+" يوم "+
+hours+" ساعة "+
+minutes+" دقيقة "+
+seconds+" ثانية ❤️";
 },1000);
 }
 
-function createHearts(){
-setInterval(function(){
-var heart = document.createElement("div");
-heart.className="heart";
-heart.innerHTML="❤️";
-heart.style.left=Math.random()*100+"vw";
-heart.style.fontSize=Math.random()*20+20+"px";
-document.body.appendChild(heart);
-setTimeout(function(){heart.remove();},6000);
-},500);
+/* رسالة سرية */
+function showSecret(){
+document.getElementById("secretBox").style.display="block";
 }
 
-var words=["محبيتش","ولا","هحب","حد","قدك","❤️"];
-var w=0;
+function checkSecret(){
+var val=document.getElementById("secretInput").value.toLowerCase();
 
-function showWord(card){
-if(w<words.length){
-document.getElementById("cardsMessage").innerHTML+=words[w]+" ";
-card.style.display="none";
-w++;
-
-if(w===words.length){
-document.body.classList.add("shake");
-explodeHearts();
-setTimeout(()=>document.body.classList.remove("shake"),500);
+if(val==="ahmed"){
+document.getElementById("secretMessage").innerHTML=
+"إنتِ السر الحلو في حياتي ❤️ ومفيش حد هيعرف قد إيه بحبك غير ربنا 💕";
+}else{
+document.getElementById("secretMessage").innerHTML="حاولي تاني 👀";
 }
-}
-}
-
-function explodeHearts(){
-for(let i=0;i<40;i++){
-let heart=document.createElement("div");
-heart.className="explodeHeart";
-heart.innerHTML="❤️";
-
-let x=(Math.random()-0.5)*600+"px";
-let y=(Math.random()-0.5)*600+"px";
-
-heart.style.setProperty("--x",x);
-heart.style.setProperty("--y",y);
-
-heart.style.left="50%";
-heart.style.top="50%";
-
-document.body.appendChild(heart);
-
-setTimeout(()=>heart.remove(),1000);
-}
-}
-
-function surprise(){
-document.getElementById("surpriseBox").classList.add("active");
-}
-
-function closeSurprise(){
-document.getElementById("surpriseBox").classList.remove("active");
 }
 
 </script>
