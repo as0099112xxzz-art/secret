@@ -8,11 +8,11 @@
 body{
 margin:0;
 padding:0;
-background:radial-gradient(circle at top, #1a0000, #000);
+background:radial-gradient(circle at top, #2b0000, black);
 color:white;
 font-family:Arial;
 text-align:center;
-overflow-y:auto;
+overflow-x:hidden;
 }
 
 #login{
@@ -45,7 +45,11 @@ margin-top:10px;
 
 #content{
 display:none;
-padding:30px 10px;
+padding-top:30px;
+}
+
+h1,h2{
+color:pink;
 }
 
 .typing{
@@ -64,46 +68,42 @@ color:pink;
 }
 
 .heart,.star{
-position:fixed;
-animation:float 8s linear infinite;
-pointer-events:none;
+position:absolute;
+animation:float 7s linear infinite;
 }
 
 .star{
-color:white;
-font-size:10px;
+color:#ffd700;
+font-size:12px;
 }
 
 @keyframes float{
-0%{transform:translateY(100vh);opacity:0}
-10%{opacity:1}
-100%{transform:translateY(-10vh);opacity:0}
-}
-
-.cards{
-display:flex;
-flex-wrap:wrap;
-justify-content:center;
-gap:15px;
-margin-top:30px;
+0%{transform:translateY(100vh);}
+100%{transform:translateY(-10vh);}
 }
 
 .card{
-width:150px;
 background:rgba(255,0,0,0.15);
+margin:15px auto;
 padding:15px;
 border-radius:15px;
+width:85%;
+max-width:320px;
+box-shadow:0 0 15px red;
 cursor:pointer;
-transition:0.3s;
 }
 
-.card:hover{transform:scale(1.05)}
-.hiddenText{display:none;margin-top:10px}
-
-.memory img{
-width:100%;
-border-radius:12px;
+.card span{
+display:none;
+margin-top:10px;
+font-size:18px;
 }
+
+textarea{
+margin-top:10px;
+height:100px;
+}
+
 </style>
 </head>
 
@@ -111,7 +111,7 @@ border-radius:12px;
 
 <div id="login">
 <h2>اكتب الباسورد ❤️</h2>
-<input type="password" id="pass">
+<input type="password" id="pass" placeholder="الباسورد هنا">
 <br><br>
 <button onclick="checkPass()">دخول</button>
 </div>
@@ -120,38 +120,51 @@ border-radius:12px;
 
 <h1 id="nameTitle"></h1>
 
-<img src="love1.jpg" style="max-width:300px;border-radius:20px;box-shadow:0 0 20px red;">
+<img src="love1.jpg" style="max-width:300px;border-radius:20px;box-shadow:0 0 25px red;margin-top:15px;">
 
 <div id="counter"></div>
 
 <p class="typing" id="text"></p>
 
-<h2>🧠 كلمات من قلبي</h2>
-<div class="cards">
-<div class="card" onclick="toggle(this)">محبّتش<span class="hiddenText">ولا هحب</span></div>
-<div class="card" onclick="toggle(this)">حد<span class="hiddenText">قدك</span></div>
-<div class="card" onclick="toggle(this)">إنتي<span class="hiddenText">اختياري</span></div>
+<h2>🃏 دوسي على الكروت</h2>
+
+<div class="card" onclick="showText(this)">
+كارت 1
+<span>محبيتش</span>
+</div>
+
+<div class="card" onclick="showText(this)">
+كارت 2
+<span>ولا هحب</span>
+</div>
+
+<div class="card" onclick="showText(this)">
+كارت 3
+<span>حد قدك ❤️</span>
 </div>
 
 <h2>📸 ذكرياتنا</h2>
-<div class="cards">
-<div class="card memory">
-<img src="memory1.jpg">
-<p>أول صورة ❤️</p>
+
+<div class="card">
+<img src="memory1.jpg" style="width:100%;border-radius:12px;">
+<p>أول صورة لينا ❤️</p>
 </div>
-<div class="card memory">
-<img src="memory2.jpg">
-<p>أول ضحكة 😂</p>
+
+<div class="card">
+<img src="memory2.jpg" style="width:100%;border-radius:12px;">
+<p>أكتر يوم ضحكنا فيه 😂</p>
 </div>
-<div class="card memory">
-<img src="memory3.jpg">
+
+<div class="card">
+<img src="memory3.jpg" style="width:100%;border-radius:12px;">
 <p>أول اعتراف 💌</p>
-</div>
 </div>
 
 <h2>💬 اكتبيلي رأيك هنا</h2>
-<textarea id="reply" placeholder="اكتبي اللي في قلبك ❤️"></textarea><br>
-<button onclick="sendWhats()">إبعت ❤️</button>
+
+<textarea id="reply" placeholder="اكتبي اللي في قلبك هنا ❤️"></textarea>
+<br>
+<button onclick="sendWhats()">ابعتيلي رأيك</button>
 
 <audio id="bgMusic" loop>
 <source src="music.mp3" type="audio/mpeg">
@@ -160,56 +173,83 @@ border-radius:12px;
 </div>
 
 <script>
+
 function checkPass(){
-if(pass.value==="love"){
-login.style.display="none";
-content.style.display="block";
-bgMusic.play();
-nameTitle.innerText="Maloka ❤️";
+if(document.getElementById("pass").value === "love"){
+document.getElementById("login").style.display="none";
+document.getElementById("content").style.display="block";
+document.getElementById("bgMusic").play();
+askName();
 typeWriter();
+createHearts();
 startCounter();
-createBG();
-}else alert("غلط 😢");
+}else{
+alert("الباسورد غلط 😢");
+}
 }
 
-var txt="من يوم ما عرفتك وأنا حاسس إن الدنيا بقت أهدى وأجمل ❤️\n\nكل يوم بيعدي وإنتِ فيه بيأكدلي إني محظوظ.\n\nأنا بختارك كل يوم.";
+function askName(){
+let name = prompt("اكتبي اسمك ❤️");
+if(name){
+document.getElementById("nameTitle").innerText = "❤️ " + name + " ❤️";
+alert("عندي رسالة سرية ليكي 💌\nأنا محبيتش ولا هحب حد قدك");
+}
+}
+
 var i=0;
+var txt="من يوم ما عرفتك وأنا بختارك كل يوم...\nومهما يعدي وقت قلبي ثابت عليك ❤️";
+
 function typeWriter(){
 if(i<txt.length){
-text.innerHTML+=txt.charAt(i++);
-setTimeout(typeWriter,40);
+document.getElementById("text").innerHTML+=txt.charAt(i);
+i++;
+setTimeout(typeWriter,45);
 }
 }
 
 function startCounter(){
-var start=new Date("November 13, 2025").getTime();
-setInterval(()=>{
+var startDate=new Date("November 13, 2025 00:00:00").getTime();
+setInterval(function(){
 var now=new Date().getTime();
-var d=now-start;
-counter.innerHTML=`عدّى علينا ${Math.floor(d/86400000)} يوم ❤️`;
+var d=now-startDate;
+var days=Math.floor(d/(1000*60*60*24));
+document.getElementById("counter").innerHTML="عدّى علينا "+days+" يوم ❤️";
 },1000);
 }
 
-function toggle(el){
-el.querySelector(".hiddenText").style.display="block";
+function createHearts(){
+setInterval(function(){
+let h=document.createElement("div");
+h.className="heart";
+h.innerHTML="❤️";
+h.style.left=Math.random()*100+"vw";
+h.style.fontSize=Math.random()*20+20+"px";
+document.body.appendChild(h);
+setTimeout(()=>h.remove(),7000);
+},500);
+
+setInterval(function(){
+let s=document.createElement("div");
+s.className="star";
+s.innerHTML="⭐";
+s.style.left=Math.random()*100+"vw";
+document.body.appendChild(s);
+setTimeout(()=>s.remove(),7000);
+},800);
 }
 
-function createBG(){
-setInterval(()=>{
-let h=document.createElement("div");
-h.className=Math.random()>0.5?"heart":"star";
-h.innerHTML=Math.random()>0.5?"❤️":"✦";
-h.style.left=Math.random()*100+"vw";
-h.style.fontSize=Math.random()*20+10+"px";
-document.body.appendChild(h);
-setTimeout(()=>h.remove(),8000);
-},400);
+function showText(card){
+card.querySelector("span").style.display="block";
 }
 
 function sendWhats(){
-let msg=encodeURIComponent(reply.value);
-window.open("https://wa.me/8615268691947?text="+msg,"_blank");
+let msg=document.getElementById("reply").value;
+if(!msg){alert("اكتبي حاجة الأول ❤️");return;}
+let phone="8615268691947";
+let url="https://wa.me/"+phone+"?text="+encodeURIComponent(msg);
+window.open(url,"_blank");
 }
+
 </script>
 
 </body>
