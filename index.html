@@ -5,18 +5,22 @@
 <title>For You ❤️</title>
 
 <style>
-body{
+
+/* نخلي الصفحة تنزل عادي */
+html,body{
 margin:0;
 padding:0;
-color:white;
+min-height:100%;
+overflow-x:hidden;
+overflow-y:auto;
 font-family:Arial;
 text-align:center;
-overflow:hidden;
+color:white;
 
-/* خلفية متحركة */
-background:linear-gradient(-45deg,#000000,#1a001a,#330033,#000000);
+/* خلفية متحركة واضحة */
+background:linear-gradient(-45deg,#000000,#220022,#440044,#000000);
 background-size:400% 400%;
-animation:gradientBG 10s ease infinite;
+animation:gradientBG 12s ease infinite;
 }
 
 @keyframes gradientBG{
@@ -53,11 +57,11 @@ margin:8px;
 
 #content{
 display:none;
-padding-top:50px;
+padding:60px 20px;
 }
 
 #malokaName{
-font-size:32px;
+font-size:34px;
 color:pink;
 animation:glow 2s infinite alternate;
 }
@@ -65,6 +69,10 @@ animation:glow 2s infinite alternate;
 @keyframes glow{
 from{ text-shadow:0 0 5px pink; }
 to{ text-shadow:0 0 25px red; }
+}
+
+h1{
+color:red;
 }
 
 .typing{
@@ -85,12 +93,12 @@ color:pink;
 /* الرسالة السرية */
 #secretBox{
 display:none;
-margin-top:20px;
+margin-top:25px;
 padding:20px;
 border:1px solid pink;
 border-radius:15px;
-background:rgba(0,0,0,0.7);
-animation:fadeIn 1s ease;
+background:rgba(0,0,0,0.6);
+animation:fadeIn 0.8s ease;
 }
 
 @keyframes fadeIn{
@@ -105,7 +113,7 @@ to{opacity:1;}
 
 <div id="login">
 <h2>اكتب الباسورد ❤️</h2>
-<input type="password" id="pass">
+<input type="password" id="pass" placeholder="الباسورد هنا">
 <br><br>
 <button onclick="checkPass()">دخول</button>
 </div>
@@ -143,10 +151,13 @@ function checkPass(){
 if(document.getElementById("pass").value==="love"){
 document.getElementById("login").style.display="none";
 document.getElementById("content").style.display="block";
+
 i=0;
 document.getElementById("text").innerHTML="";
 typeWriter();
 startCounter();
+}else{
+alert("الباسورد غلط 😢");
 }
 }
 
@@ -177,7 +188,6 @@ seconds+" ثانية ❤️";
 },1000);
 }
 
-/* رسالة سرية */
 function showSecret(){
 document.getElementById("secretBox").style.display="block";
 }
