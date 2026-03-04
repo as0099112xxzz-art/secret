@@ -84,7 +84,6 @@ animation:float 6s linear infinite;
 100%{transform:translateY(-10vh);}
 }
 
-/* الكروت */
 .card{
 display:inline-block;
 background:#111;
@@ -102,7 +101,6 @@ color:pink;
 min-height:30px;
 }
 
-/* اهتزاز */
 .shake{
 animation:shake 0.5s;
 }
@@ -115,7 +113,6 @@ animation:shake 0.5s;
 100%{transform:translateX(0);}
 }
 
-/* انفجار القلوب */
 .explodeHeart{
 position:fixed;
 color:red;
@@ -126,14 +123,8 @@ z-index:1000;
 }
 
 @keyframes explode{
-0%{
-transform:translate(0,0) scale(1);
-opacity:1;
-}
-100%{
-transform:translate(var(--x),var(--y)) scale(2);
-opacity:0;
-}
+0%{transform:translate(0,0) scale(1);opacity:1;}
+100%{transform:translate(var(--x),var(--y)) scale(2);opacity:0;}
 }
 
 #surpriseBox{
@@ -214,17 +205,11 @@ visibility:visible;
 <p style="font-size:24px; line-height:1.8; max-width:700px;">
 أنا ما اخترتش أحبك…  
 أنا لقيت نفسي بحبك من غير ما أحس ❤️  
-
 من أول يوم 13 نوفمبر 2025  
 وحياتي بدأت تاخد شكل تاني  
-
 إنتِ أماني، وضحكتي، وسبب سعادتي  
 وكل حلم نفسي أعيشه يكون وإنتِ معايا 💕  
-
-لو الزمن رجع بيا  
-هختارك ألف مرة  
-من غير تفكير  
-
+لو الزمن رجع بيا هختارك ألف مرة  
 بحبك… وهفضل أحبك طول العمر ❤️
 </p>
 <br>
@@ -233,27 +218,34 @@ visibility:visible;
 
 <script>
 
+var i = 0;
+var txt = "من يوم ما عرفتك وأنا حاسس إن الدنيا بقت أهدى وأجمل ❤️\n\nكل يوم بيعدي وإنتِ فيه بيأكدلي إني محظوظ.\nوجودك في حياتي فرق معايا في كل حاجة.\n\nمش بس بحبك…\nأنا بختارك كل يوم.\nوبتمنى نكمل المشوار سوا لآخر العمر 💕";
+
 function checkPass(){
 var password = document.getElementById("pass").value;
+
 if(password === "love"){
 document.getElementById("login").style.display="none";
 document.getElementById("content").style.display="block";
 document.getElementById("bgMusic").play();
 document.getElementById("malokaName").style.opacity="1";
 
+/* نضمن إن الكلام يبدأ من الأول */
+i = 0;
+document.getElementById("text").innerHTML = "";
+
+/* نضمن إن الصورة تظهر */
 document.getElementById("imageContainer").innerHTML =
 '<img src="love1.jpg" style="margin-top:30px;max-width:320px;border-radius:20px;box-shadow:0 0 30px red;">';
 
 typeWriter();
 createHearts();
 startCounter();
+
 }else{
 alert("الباسورد غلط 😢");
 }
 }
-
-var i = 0;
-var txt = "من يوم ما عرفتك وأنا حاسس إن الدنيا بقت أهدى وأجمل ❤️\n\nكل يوم بيعدي وإنتِ فيه بيأكدلي إني محظوظ.\nوجودك في حياتي فرق معايا في كل حاجة.\n\nمش بس بحبك…\nأنا بختارك كل يوم.\nوبتمنى نكمل المشوار سوا لآخر العمر 💕";
 
 function typeWriter(){
 if(i < txt.length){
@@ -294,7 +286,6 @@ setTimeout(function(){heart.remove();},6000);
 },500);
 }
 
-/* الكروت */
 var words=["محبيتش","ولا","هحب","حد","قدك","❤️"];
 var w=0;
 
@@ -312,7 +303,6 @@ setTimeout(()=>document.body.classList.remove("shake"),500);
 }
 }
 
-/* انفجار */
 function explodeHearts(){
 for(let i=0;i<40;i++){
 let heart=document.createElement("div");
