@@ -5,8 +5,6 @@
 <title>For You ❤️</title>
 
 <style>
-
-/* نخلي الصفحة تنزل عادي */
 html,body{
 margin:0;
 padding:0;
@@ -16,17 +14,36 @@ overflow-y:auto;
 font-family:Arial;
 text-align:center;
 color:white;
-
-/* خلفية متحركة واضحة */
-background:linear-gradient(-45deg,#000000,#220022,#440044,#000000);
-background-size:400% 400%;
-animation:gradientBG 12s ease infinite;
+background:black;
 }
 
-@keyframes gradientBG{
-0%{background-position:0% 50%;}
-50%{background-position:100% 50%;}
-100%{background-position:0% 50%;}
+/* نجوم */
+.star{
+position:fixed;
+width:2px;
+height:2px;
+background:white;
+border-radius:50%;
+animation:twinkle 2s infinite alternate;
+z-index:0;
+}
+
+@keyframes twinkle{
+from{opacity:0.2;}
+to{opacity:1;}
+}
+
+/* قلوب طايرة */
+.heart{
+position:fixed;
+color:red;
+animation:float 6s linear infinite;
+z-index:0;
+}
+
+@keyframes float{
+0%{transform:translateY(100vh);}
+100%{transform:translateY(-10vh);}
 }
 
 #login{
@@ -34,13 +51,7 @@ position:absolute;
 top:50%;
 left:50%;
 transform:translate(-50%,-50%);
-}
-
-input{
-padding:10px;
-font-size:18px;
-border-radius:10px;
-border:none;
+z-index:2;
 }
 
 button{
@@ -55,9 +66,18 @@ box-shadow:0 0 15px red;
 margin:8px;
 }
 
+input{
+padding:10px;
+font-size:18px;
+border-radius:10px;
+border:none;
+}
+
 #content{
 display:none;
 padding:60px 20px;
+position:relative;
+z-index:2;
 }
 
 #malokaName{
@@ -69,10 +89,6 @@ animation:glow 2s infinite alternate;
 @keyframes glow{
 from{ text-shadow:0 0 5px pink; }
 to{ text-shadow:0 0 25px red; }
-}
-
-h1{
-color:red;
 }
 
 .typing{
@@ -90,20 +106,13 @@ margin-top:15px;
 color:pink;
 }
 
-/* الرسالة السرية */
 #secretBox{
 display:none;
 margin-top:25px;
 padding:20px;
 border:1px solid pink;
 border-radius:15px;
-background:rgba(0,0,0,0.6);
-animation:fadeIn 0.8s ease;
-}
-
-@keyframes fadeIn{
-from{opacity:0;}
-to{opacity:1;}
+background:rgba(0,0,0,0.7);
 }
 
 </style>
@@ -113,7 +122,7 @@ to{opacity:1;}
 
 <div id="login">
 <h2>اكتب الباسورد ❤️</h2>
-<input type="password" id="pass" placeholder="الباسورد هنا">
+<input type="password" id="pass">
 <br><br>
 <button onclick="checkPass()">دخول</button>
 </div>
@@ -128,6 +137,8 @@ to{opacity:1;}
 
 <p class="typing" id="text"></p>
 
+<div id="imageContainer"></div>
+
 <br>
 
 <button onclick="showSecret()">رسالة سرية 🔐</button>
@@ -140,10 +151,38 @@ to{opacity:1;}
 <p id="secretMessage" style="margin-top:15px;font-size:20px;color:pink;"></p>
 </div>
 
+<br>
+
+<audio id="bgMusic" loop>
+<source src="music.mp3" type="audio/mpeg">
+</audio>
+
 </div>
 
 <script>
 
+/* نجوم */
+for(let i=0;i<120;i++){
+let star=document.createElement("div");
+star.className="star";
+star.style.top=Math.random()*100+"vh";
+star.style.left=Math.random()*100+"vw";
+star.style.animationDuration=Math.random()*3+1+"s";
+document.body.appendChild(star);
+}
+
+/* قلوب */
+setInterval(function(){
+let heart=document.createElement("div");
+heart.className="heart";
+heart.innerHTML="❤️";
+heart.style.left=Math.random()*100+"vw";
+heart.style.fontSize=Math.random()*20+15+"px";
+document.body.appendChild(heart);
+setTimeout(()=>heart.remove(),6000);
+},700);
+
+/* الكتابة */
 var i=0;
 var txt="من يوم ما عرفتك وأنا حاسس إن الدنيا بقت أهدى وأجمل ❤️\n\nكل يوم بيعدي وإنتِ فيه بيأكدلي إني محظوظ.\nوجودك في حياتي فرق معايا في كل حاجة.\n\nأنا بختارك كل يوم 💕";
 
@@ -152,8 +191,14 @@ if(document.getElementById("pass").value==="love"){
 document.getElementById("login").style.display="none";
 document.getElementById("content").style.display="block";
 
+document.getElementById("bgMusic").play();
+
 i=0;
 document.getElementById("text").innerHTML="";
+
+document.getElementById("imageContainer").innerHTML=
+'<img src="love1.jpg" style="margin-top:30px;max-width:320px;border-radius:20px;box-shadow:0 0 30px red;">';
+
 typeWriter();
 startCounter();
 }else{
@@ -169,6 +214,7 @@ setTimeout(typeWriter,45);
 }
 }
 
+/* العداد */
 function startCounter(){
 var startDate=new Date("November 13, 2025 00:00:00").getTime();
 setInterval(function(){
@@ -188,13 +234,13 @@ seconds+" ثانية ❤️";
 },1000);
 }
 
+/* رسالة سرية */
 function showSecret(){
 document.getElementById("secretBox").style.display="block";
 }
 
 function checkSecret(){
 var val=document.getElementById("secretInput").value.toLowerCase();
-
 if(val==="ahmed"){
 document.getElementById("secretMessage").innerHTML=
 "إنتِ السر الحلو في حياتي ❤️ ومفيش حد هيعرف قد إيه بحبك غير ربنا 💕";
