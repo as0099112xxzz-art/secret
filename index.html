@@ -12,7 +12,7 @@ background:black;
 color:white;
 font-family:Arial;
 text-align:center;
-overflow:hidden;
+overflow-x:hidden;
 }
 
 #login{
@@ -38,6 +38,7 @@ background:linear-gradient(45deg, red, pink);
 color:white;
 cursor:pointer;
 box-shadow:0 0 15px red;
+margin-top:10px;
 }
 
 #content{
@@ -72,6 +73,51 @@ margin-top:20px;
 font-size:20px;
 margin-top:15px;
 color:pink;
+}
+
+.card-container{
+display:flex;
+justify-content:center;
+flex-wrap:wrap;
+gap:15px;
+margin-top:30px;
+}
+
+.card{
+width:110px;
+height:75px;
+background:#111;
+border-radius:15px;
+display:flex;
+align-items:center;
+justify-content:center;
+cursor:pointer;
+box-shadow:0 0 15px red;
+transition:0.3s;
+font-size:28px;
+}
+
+.card:hover{
+transform:scale(1.1);
+}
+
+#cardsMessage{
+margin-top:20px;
+font-size:22px;
+color:pink;
+min-height:30px;
+}
+
+.explosion-heart{
+position:fixed;
+font-size:20px;
+animation:explode 1s ease-out forwards;
+pointer-events:none;
+}
+
+@keyframes explode{
+0%{transform:scale(0.5);opacity:1;}
+100%{transform:translate(var(--x),var(--y)) scale(2);opacity:0;}
 }
 
 .heart{
@@ -129,7 +175,19 @@ visibility:visible;
 
 <div id="imageContainer"></div>
 
-<br><br>
+<!-- الكروت -->
+<div class="card-container">
+<div class="card" onclick="showCardWord(this)">❤️</div>
+<div class="card" onclick="showCardWord(this)">💕</div>
+<div class="card" onclick="showCardWord(this)">💖</div>
+<div class="card" onclick="showCardWord(this)">💘</div>
+<div class="card" onclick="showCardWord(this)">💞</div>
+<div class="card" onclick="showCardWord(this)">💗</div>
+</div>
+
+<div id="cardsMessage"></div>
+
+<br>
 <button onclick="surprise()">اضغطي هنا يا أجمل حاجة في حياتي ❤️</button>
 
 <audio id="bgMusic" loop>
@@ -141,19 +199,6 @@ visibility:visible;
 <div id="surpriseBox">
 <h1 style="color:red;">مفاجأة ❤️</h1>
 <p style="font-size:24px; line-height:1.8; max-width:700px;">
-أنا ما اخترتش أحبك…  
-أنا لقيت نفسي بحبك من غير ما أحس ❤️  
-
-من أول يوم 13 نوفمبر 2025  
-وحياتي بدأت تاخد شكل تاني  
-
-إنتِ أماني، وضحكتي، وسبب سعادتي  
-وكل حلم نفسي أعيشه يكون وإنتِ معايا 💕  
-
-لو الزمن رجع بيا  
-هختارك ألف مرة  
-من غير تفكير  
-
 بحبك… وهفضل أحبك طول العمر ❤️
 </p>
 <br>
@@ -187,7 +232,7 @@ alert("الباسورد غلط 😢");
 }
 
 var i = 0;
-var txt = "من يوم ما عرفتك وأنا حاسس إن الدنيا بقت أهدى وأجمل ❤️\n\nكل يوم بيعدي وإنتِ فيه بيأكدلي إني محظوظ.\nوجودك في حياتي فرق معايا في كل حاجة.\n\nمش بس بحبك…\nأنا بختارك كل يوم.\nوبتمنى نكمل المشوار سوا لآخر العمر 💕";
+var txt = "من يوم ما عرفتك وأنا حاسس إن الدنيا بقت أهدى وأجمل ❤️\n\nمش بس بحبك… أنا بختارك كل يوم 💕";
 
 function typeWriter(){
 if(i < txt.length){
@@ -226,6 +271,47 @@ heart.style.fontSize=Math.random()*20+20+"px";
 document.body.appendChild(heart);
 setTimeout(function(){heart.remove();},6000);
 },500);
+}
+
+var words=["محبيتش","ولا","هحب","حد","قدك","❤️"];
+var currentWord=0;
+
+function showCardWord(card){
+if(currentWord<words.length){
+document.getElementById("cardsMessage").innerHTML+=words[currentWord]+" ";
+explodeHearts(card);
+card.style.visibility="hidden";
+currentWord++;
+if(currentWord===words.length){bigExplosion();}
+}
+}
+
+function explodeHearts(element){
+for(let j=0;j<15;j++){
+let heart=document.createElement("div");
+heart.className="explosion-heart";
+heart.innerHTML="❤️";
+heart.style.left=element.getBoundingClientRect().left+40+"px";
+heart.style.top=element.getBoundingClientRect().top+40+"px";
+heart.style.setProperty("--x",(Math.random()*300-150)+"px");
+heart.style.setProperty("--y",(Math.random()*300-150)+"px");
+document.body.appendChild(heart);
+setTimeout(()=>heart.remove(),1000);
+}
+}
+
+function bigExplosion(){
+for(let k=0;k<40;k++){
+let heart=document.createElement("div");
+heart.className="explosion-heart";
+heart.innerHTML="💖";
+heart.style.left="50%";
+heart.style.top="50%";
+heart.style.setProperty("--x",(Math.random()*600-300)+"px");
+heart.style.setProperty("--y",(Math.random()*600-300)+"px");
+document.body.appendChild(heart);
+setTimeout(()=>heart.remove(),1000);
+}
 }
 
 function surprise(){
